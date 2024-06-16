@@ -17,12 +17,12 @@ data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Int = 0,
-    val firstname: String,
-    val lastname: String,
-    val email: String,
-    val passwordString: String,
+    val firstname: String =  "",
+    val lastname: String =  "",
+    val email: String =  "",
+    val passwordString: String = "",
     @Enumerated(EnumType.STRING)
-    private var role: Role? = null
+    private var role: Role? = Role.USER
 ): UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {

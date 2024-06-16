@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service
 @Service
 class AuthenticationService(
     val repository: UserRepository,
-    val passwordEncoder: PasswordEncoder,
+//    val passwordEncoder: PasswordEncoder,
     val jwtService: JwtService,
-    val authenticationManager: AuthenticationManager
+//    val authenticationManager: AuthenticationManager
 ) {
 
     fun register(request: RegisterRequest): AuthenticationResponse {
@@ -22,7 +22,8 @@ class AuthenticationService(
             firstname = request.firstname,
             lastname = request.lastname,
             email = request.email,
-            passwordString = passwordEncoder.encode(request.password),
+            //passwordString = passwordEncoder.encode(request.password),
+            passwordString = "",
             role = Role.USER
         )
         repository.save(user)
@@ -31,12 +32,12 @@ class AuthenticationService(
     }
 
     fun authenticate(request: AuthenticationRequest): AuthenticationResponse {
-        authenticationManager.authenticate(
-            UsernamePasswordAuthenticationToken(
-                request.email,
-                request.password
-            )
-        )
+//        authenticationManager.authenticate(
+//            UsernamePasswordAuthenticationToken(
+//                request.email,
+//                request.password
+//            )
+//        )
         val user = repository.findByEmail(request.email)
         val jwtToken = jwtService.generateToken(user!!)
         return AuthenticationResponse(token = jwtToken)

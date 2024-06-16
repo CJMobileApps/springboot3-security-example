@@ -40,7 +40,7 @@ class JwtService {
             .setClaims(extraClaims)
             .setSubject(userDetails.username)
             .setIssuedAt(Date(System.currentTimeMillis()))
-            .setExpiration(Date(System.currentTimeMillis() + 1000 * 60 * 24))
+            .setExpiration(Date(System.currentTimeMillis() + 1000 * 60 * 24 * 60))
             .signWith(getSignInKey(), SignatureAlgorithm.HS256)
             .compact()
     }
@@ -48,6 +48,10 @@ class JwtService {
     fun isTokenValid(token: String, userDetails: UserDetails): Boolean {
         val username = extractUsername(token)
         return (username == userDetails.username) && !isTokenExpired(token)
+    }
+
+    fun isTokenValid(token: String): Boolean {
+        return  !isTokenExpired(token)
     }
 
     private fun isTokenExpired(token: String): Boolean {
